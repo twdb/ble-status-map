@@ -1,9 +1,68 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Hello Courser!a!</title>
-</head>
-<body>
-<h1>Hello Coursera! It's a great course!</h1>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="initial-scale=1,maximum-scale=1,user-scalable=no"
+    />
+    <title>Texas BLE Status</title>
+
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+
+    <link
+      rel="stylesheet"
+      href="https://js.arcgis.com/4.17/esri/themes/light/main.css"
+    />
+
+    <script src="https://js.arcgis.com/4.17/"></script>
+
+    <script>
+      require([
+        "esri/views/MapView",
+        "esri/WebMap",
+        "esri/widgets/Legend"
+      ], function (MapView, WebMap, Legend) {
+     
+        var webmap = new WebMap({
+          portalItem: {
+            // autocasts as new PortalItem()
+            id: "fa6af483c7594b1b845af90aee8c7bd0"
+          }
+        });
+
+
+        var view = new MapView({
+          map: webmap,
+          container: "viewDiv"
+        });
+
+        view.when(function () {
+	  var featureLayer = webmap.layers.getItemAt(1);
+          var legend = new Legend({
+            //id: "legend",
+            view: view,
+ 	    layerInfos: [{
+              layer: featureLayer,
+              title: " "
+            }]
+          });
+          view.ui.add(legend, "top-right");
+        });
+      });
+    </script>
+  </head>
+
+  <body>
+    <div id="viewDiv"></div>
+  </body>
 </html>
