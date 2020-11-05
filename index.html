@@ -47,15 +47,13 @@
         });
 
         view.when(function () {
-	  var featureLayer = webmap.layers.getItemAt(1);
-          var legend = new Legend({
+	  var legend = new Legend({
             //id: "legend",
-            view: view,
- 	    layerInfos: [{
-              layer: featureLayer,
-              title: " "
-            }]
+            view: view
           });
+          view.ui.add(legend, "top-right");
+        });
+
           view.ui.add(legend, "top-right");
         });
       });
