@@ -37,23 +37,24 @@
           portalItem: {
             // autocasts as new PortalItem()
             id: "fa6af483c7594b1b845af90aee8c7bd0"
+         
           }
+         
         });
 
 
         var view = new MapView({
           map: webmap,
           container: "viewDiv"
+
         });
 
         view.when(function () {
-	  var legend = new Legend({
+	  
+          var legend = new Legend({
             //id: "legend",
             view: view
           });
-          view.ui.add(legend, "top-right");
-        });
-
           view.ui.add(legend, "top-right");
         });
       });
