@@ -34,8 +34,8 @@
         "esri/WebMap",
         "esri/widgets/Legend",
         "esri/core/watchUtils",
-        "dojo/domReady!"
-      ], function (MapView, WebMap, Legend, watchUtils) {
+         "esri/widgets/Expand"
+      ], function (MapView, WebMap, Legend, Expand, watchUtils) {
      
         var webmap = new WebMap({
           portalItem: {
@@ -55,10 +55,14 @@
 
         view.when(function () {
 	  
-          var legend = new Legend({
-            //id: "legend",
-            view: view
-          });
+        const legend = new Expand({
+          content: new Legend({
+            view: view,
+            style: "card" // other styles include 'classic'
+          }),
+          view: view,
+          expanded: false
+        });
 
         watchUtils.when(legend ,"container", function(){
               legend.container.style.display = 'none';
