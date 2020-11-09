@@ -57,9 +57,28 @@
             style: "classic"
           }),
           view: view,
+          expandTooltip: "Legend",
           expanded: false
         });
         view.ui.add(legend, "top-right");
+
+        const sampleInstructions = document.createElement("div");
+        sampleInstructions.style.padding = "10px";
+        sampleInstructions.style.backgroundColor = "white";
+        sampleInstructions.style.width = "300px";
+        sampleInstructions.innerText = [
+          "The instructions on how to",
+          "use this map will go here."
+        ].join(" ");
+
+        const instructionsExpand = new Expand({
+          expandIconClass: "esri-icon-question",
+          expandTooltip: "How to use this map",
+          expanded: false,
+          view: view,
+          content: sampleInstructions
+        });
+        view.ui.add(instructionsExpand, "top-left");
       });
     </script>
   </head>
