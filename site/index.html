@@ -4,9 +4,17 @@
     <meta charset="utf-8" />
     <meta
       name="viewport"
-      content="initial-scale=1,maximum-scale=1,user-scalable=no"
+      content="initial-scale=1, maximum-scale=1,user-scalable=no"
     />
-    <title>Texas BLE Status</title>
+
+    <title>
+      Texas BLE Status
+    </title>
+
+    <link
+      rel="stylesheet"
+      href="https://js.arcgis.com/4.17/esri/themes/light/main.css"
+    />
 
     <style>
       html,
@@ -18,71 +26,45 @@
         width: 100%;
         overflow: hidden;
       }
-
     </style>
-
-    <link
-      rel="stylesheet"
-      href="https://js.arcgis.com/4.17/esri/themes/light/main.css"
-    />
 
     <script src="https://js.arcgis.com/4.17/"></script>
 
     <script>
       require([
         "esri/views/MapView",
-        "esri/WebMap",
         "esri/widgets/Legend",
-        "esri/core/watchUtils",
-         "esri/widgets/Expand"
-      ], function (MapView, WebMap, Legend, Expand, watchUtils) {
-     
+        "esri/widgets/Expand",
+        "esri/WebMap"
+      ], function (MapView, Legend, Expand, WebMap) {
+
         var webmap = new WebMap({
           portalItem: {
             // autocasts as new PortalItem()
             id: "fa6af483c7594b1b845af90aee8c7bd0"
-         
           }
-         
         });
-
 
         var view = new MapView({
-          map: webmap,
-          container: "viewDiv"
-
+          container: "viewDiv",
+          map: webmap
         });
 
-        view.when(function () {
-	  
-        const legend = new Expand({
+
+        var legend = new Expand({
           content: new Legend({
             view: view,
-            style: "card" // other styles include 'classic'
+            style: "classic"
           }),
           view: view,
           expanded: false
         });
-
-        watchUtils.when(legend ,"container", function(){
-              legend.container.style.display = 'none';
-          })
-
         view.ui.add(legend, "top-right");
-
-        view.watch("scale", function(scale) {
-           if (scale > 150000000) {
-            legend.container.style.display = 'none';
-           } else {
-            legend.container.style.display = 'block';
-           }
-          });
-        });
       });
     </script>
   </head>
 
-  <body class="calcite">
+  <body>
     <div id="viewDiv"></div>
   </body>
 </html>
