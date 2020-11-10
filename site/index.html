@@ -35,8 +35,9 @@
         "esri/views/MapView",
         "esri/widgets/Legend",
         "esri/widgets/Expand",
-        "esri/WebMap"
-      ], function (MapView, Legend, Expand, WebMap) {
+        "esri/WebMap",
+        "esri/widgets/Fullscreen"
+      ], function (MapView, Legend, Expand, WebMap, Fullscreen) {
 
         var webmap = new WebMap({
           portalItem: {
@@ -47,9 +48,13 @@
 
         var view = new MapView({
           container: "viewDiv",
-          map: webmap
+          map: webmap,
+          constraints: {
+            snapToZoom: false
+          }
         });
 
+        var applicationDiv = document.getElementById("applicationDiv");
 
         var legend = new Expand({
           content: new Legend({
@@ -79,11 +84,20 @@
           content: sampleInstructions
         });
         view.ui.add(instructionsExpand, "top-left");
+
+        view.ui.add(
+          new Fullscreen({
+            view: view,
+            element: applicationDiv
+          }),
+          "bottom-right"
+        );
       });
     </script>
   </head>
 
   <body>
+    <div id="applicationDiv"></div>
     <div id="viewDiv"></div>
   </body>
 </html>
