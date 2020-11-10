@@ -26,6 +26,15 @@
         width: 100%;
         overflow: hidden;
       }
+
+      #applicationDiv {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
     </style>
 
     <script src="https://js.arcgis.com/4.17/"></script>
@@ -53,7 +62,8 @@
             snapToZoom: false
           }
         });
-
+        
+        
         var applicationDiv = document.getElementById("applicationDiv");
 
         var legend = new Expand({
@@ -97,7 +107,7 @@
   </head>
 
   <body>
-    <div id="applicationDiv"></div>
-    <div id="viewDiv"></div>
+    <div id="applicationDiv"> <div id="viewDiv"></div>
+    </div>
   </body>
 </html>
