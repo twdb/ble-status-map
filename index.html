@@ -4,9 +4,17 @@
     <meta charset="utf-8" />
     <meta
       name="viewport"
-      content="initial-scale=1,maximum-scale=1,user-scalable=no"
+      content="initial-scale=1, maximum-scale=1,user-scalable=no"
     />
-    <title>Texas BLE Status</title>
+
+    <title>
+      Texas BLE Status
+    </title>
+
+    <link
+      rel="stylesheet"
+      href="https://js.arcgis.com/4.17/esri/themes/light/main.css"
+    />
 
     <style>
       html,
@@ -16,52 +24,99 @@
         margin: 0;
         height: 100%;
         width: 100%;
+        overflow: hidden;
       }
-    </style>
 
-    <link
-      rel="stylesheet"
-      href="https://js.arcgis.com/4.17/esri/themes/light/main.css"
-    />
+      #applicationDiv {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+
+      .esri-ui-corner .esri-expand .esri-widget--panel, 
+      .esri-ui-corner .esri-expand .esri-widget--panel-height-only, 
+      .esri-ui-corner .esri-component>.esri-widget--panel, 
+      .esri-ui-corner .esri-component.esri-widget--panel {
+         width: 160px;
+      }
+
+    </style>
 
     <script src="https://js.arcgis.com/4.17/"></script>
 
     <script>
       require([
         "esri/views/MapView",
+        "esri/widgets/Legend",
+        "esri/widgets/Expand",
         "esri/WebMap",
-        "esri/widgets/Legend"
-      ], function (MapView, WebMap, Legend) {
-     
+        "esri/widgets/Fullscreen"
+      ], function (MapView, Legend, Expand, WebMap, Fullscreen) {
+
         var webmap = new WebMap({
           portalItem: {
             // autocasts as new PortalItem()
             id: "fa6af483c7594b1b845af90aee8c7bd0"
-         
           }
-         
         });
-
 
         var view = new MapView({
+          container: "viewDiv",
           map: webmap,
-          container: "viewDiv"
+          constraints: {
+            snapToZoom: false
+          }
+        });
+        
+        
+        var applicationDiv = document.getElementById("applicationDiv");
 
+        var legend = new Expand({
+          content: new Legend({
+            view: view,
+            style: "classic"
+          }),
+          view: view,
+          expandTooltip: "Legend",
+          expanded: false
         });
 
-        view.when(function () {
-	  
-          var legend = new Legend({
-            //id: "legend",
-            view: view
-          });
-          view.ui.add(legend, "top-right");
+        view.ui.add(legend, "top-right");
+
+        const sampleInstructions = document.createElement("div");
+        sampleInstructions.style.padding = "10px";
+        sampleInstructions.style.backgroundColor = "white";
+        sampleInstructions.style.width = "300px";
+        sampleInstructions.innerText = [
+          "The instructions on how to",
+          "use this map will go here."
+        ].join(" ");
+
+        const instructionsExpand = new Expand({
+          expandIconClass: "esri-icon-question",
+          expandTooltip: "How to use this map",
+          expanded: false,
+          view: view,
+          content: sampleInstructions
         });
+        view.ui.add(instructionsExpand, "top-left");
+
+        view.ui.add(
+          new Fullscreen({
+            view: view,
+            element: applicationDiv
+          }),
+          "bottom-right"
+        );
       });
     </script>
   </head>
 
   <body>
-    <div id="viewDiv"></div>
+    <div id="applicationDiv"> <div id="viewDiv"></div>
+    </div>
   </body>
 </html>
