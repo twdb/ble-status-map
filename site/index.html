@@ -4,17 +4,9 @@
     <meta charset="utf-8" />
     <meta
       name="viewport"
-      content="initial-scale=1, maximum-scale=1,user-scalable=no"
+      content="initial-scale=1,maximum-scale=1,user-scalable=no"
     />
-
-    <title>
-      Texas BLE Status
-    </title>
-
-    <link
-      rel="stylesheet"
-      href="https://js.arcgis.com/4.17/esri/themes/light/main.css"
-    />
+    <title>Texas BLE Status</title>
 
     <style>
       html,
@@ -24,30 +16,39 @@
         margin: 0;
         height: 100%;
         width: 100%;
-        overflow: hidden;
       }
 
-      #applicationDiv {
+       #instruction {
+        z-index: 99;
         position: absolute;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
+        top: 15px;
+        left: 50%;
+        padding: 5px;
+        margin-left: -175px;
+        height: 30px;
+        width: 364px;
+        background: rgba(25, 25, 25, 0.8);
+        color: white;
       }
+
     </style>
 
-    <script src="https://js.arcgis.com/4.17/"></script>
+    <link
+      rel="stylesheet"
+      href="https://js.arcgis.com/4.18/esri/themes/light/main.css"
+    />
+
+    <script src="https://js.arcgis.com/4.18/"></script>
 
     <script>
       require([
         "esri/views/MapView",
-        "esri/widgets/Legend",
-        "esri/widgets/Expand",
         "esri/WebMap",
-        "esri/widgets/Fullscreen"
-      ], function (MapView, Legend, Expand, WebMap, Fullscreen) {
-
+        "esri/widgets/Legend",
+        "esri/widgets/Home",
+        "esri/widgets/Legend/LegendViewModel"
+      ], function (MapView, WebMap, Legend, Home, LegendVM) {
+     
         var webmap = new WebMap({
           portalItem: {
             // autocasts as new PortalItem()
@@ -55,59 +56,46 @@
           }
         });
 
+
         var view = new MapView({
-          container: "viewDiv",
           map: webmap,
+          container: "viewDiv",
           constraints: {
             snapToZoom: false
           }
         });
-        
-        
-        var applicationDiv = document.getElementById("applicationDiv");
 
-        var legend = new Expand({
-          content: new Legend({
-            view: view,
-            style: "classic"
-          }),
-          view: view,
-          expandTooltip: "Legend",
-          expanded: false
+        var homeBtn = new Home({
+          view: view
         });
+  
+        view.constraints.minZoom = 6;
+
+        view.popup.dockOptions = {
+        position: "bottom-left"
+
+        };
+
+        const legend = new Legend({
+        view: view,
+        viewModel: new LegendVM({
+        view: view
+         })
+      });
         view.ui.add(legend, "top-right");
 
-        const sampleInstructions = document.createElement("div");
-        sampleInstructions.style.padding = "10px";
-        sampleInstructions.style.backgroundColor = "white";
-        sampleInstructions.style.width = "300px";
-        sampleInstructions.innerText = [
-          "The instructions on how to",
-          "use this map will go here."
-        ].join(" ");
+        view.ui.add(homeBtn, "top-left");
 
-        const instructionsExpand = new Expand({
-          expandIconClass: "esri-icon-question",
-          expandTooltip: "How to use this map",
-          expanded: false,
-          view: view,
-          content: sampleInstructions
-        });
-        view.ui.add(instructionsExpand, "top-left");
-
-        view.ui.add(
-          new Fullscreen({
-            view: view,
-            element: applicationDiv
-          }),
-          "bottom-right"
-        );
       });
+
+
     </script>
   </head>
 
   <body>
-    <div id="applicationDiv"> <div id="viewDiv"></div>
+    <div id="viewDiv"></div>
+    <div id="instruction" class="esri-widget">
+      Click on any watershed on the map to see its BLE status
     </div>
   </body>
 </html>
