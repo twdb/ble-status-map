@@ -7,6 +7,11 @@
       content="initial-scale=1,maximum-scale=1,user-scalable=no"
     />
     <title>Texas BLE Status</title>
+    
+    <link
+      rel="stylesheet"
+      href="https://js.arcgis.com/4.18/esri/themes/light/main.css"
+    />
 
     <style>
       html,
@@ -30,13 +35,22 @@
         background: rgba(25, 25, 25, 0.8);
         color: white;
       }
+      
+       .esri-ui-corner .esri-component.esri-widget--panel {
+         width: 250px;
+      }
+       
+      .esri-view-height-medium .esri-ui-corner .esri-component.esri-widget--panel {
+         max-height: 840px;
+      }
+
+      .esri-ui-corner .esri-component {
+         box-shadow: 0 0 0px 1px rgba(0, 0, 0, 1);
+      }
 
     </style>
 
-    <link
-      rel="stylesheet"
-      href="https://js.arcgis.com/4.18/esri/themes/light/main.css"
-    />
+    
 
     <script src="https://js.arcgis.com/4.18/"></script>
 
