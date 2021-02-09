@@ -63,8 +63,9 @@
         "esri/WebMap",
         "esri/widgets/Legend",
         "esri/widgets/Home",
+        "esri/widgets/Expand",
         "esri/widgets/Legend/LegendViewModel"
-      ], function (MapView, WebMap, Legend, Home, LegendVM) {
+      ], function (MapView, WebMap, Legend, Home, Expand, LegendVM) {
      
         var webmap = new WebMap({
           portalItem: {
@@ -94,14 +95,33 @@
         };
 
         const legend = new Legend({
-        view: view,
-        viewModel: new LegendVM({
         view: view
-         })
-      });
+        
+        });
+
         view.ui.add(legend, "top-right");
 
         view.ui.add(homeBtn, "top-left");
+
+        const sampleInstructions = document.createElement("div");
+        sampleInstructions.style.padding = "10px";
+        sampleInstructions.style.backgroundColor = "white";
+        sampleInstructions.style.width = "600px";
+        sampleInstructions.innerText = [
+          "The BLE status map provides the current progress of BLE development throughout the state.",
+           "The status data for the BLE initiative is tracked and disseminated on a “Hydrologic Unit Code, Level 8 (HUC 8)” watershed basis.",  
+           "Status information provided includes the name and HUC 8 for each watershed, name of the corresponding flood planning region, source",
+          "of funding, type of study, project status, and actual or planned completion date."
+        ].join(" ");
+
+        const instructionsExpand = new Expand({
+          expandIconClass: "esri-icon-question",
+          expandTooltip: "Map description",
+          expanded: false,
+          view: view,
+          content: sampleInstructions
+        });
+        view.ui.add(instructionsExpand, "top-left");
 
       });
 
